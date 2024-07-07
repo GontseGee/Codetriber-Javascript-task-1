@@ -147,4 +147,115 @@ function filterNonString(data) {
   let newArray = filterNonString(array);
 console.log('newArray:',newArray);
 
+//number 3 
+//names of the developers
+function findDeveloperNames(developers) {
+  // Return an array containing all developer names
+  return developers.map((dev) => dev.name);
+}
+const developerNames = developers.map((dev) => dev.name);
+console.log(developerNames);
+
+//total phones
+function countTotalPhones(developers) {
+  // Return the total number of phones across all developers
+  return developers.reduce((acc, dev) => acc + dev.phones.length, 0);
+}
+const totalPhones = developers.reduce((acc, dev) => acc + dev.phones.length, 0);
+console.log("number of phones:",totalPhones);
+
+
+//incomplete Setup
+function countIncompleteSetups(developers) {
+  // Return the total number of incomplete computer setups
+  return developers.reduce((acc, dev) => {
+    return acc + dev.computerSetups.filter(
+      (setup) =>
+        setup.monitors === 0 ||
+        setup.keyboards === 0 ||
+        setup.mice === 0 ||
+        setup.speakers === 0
+    ).length;
+  }, 0);
+}
+
+function findMostTrustedPhoneBrand(developers) {
+  const phoneCounts = {};
+  developers.forEach((dev) => {
+    dev.phones.forEach((phone) => {
+      phoneCounts[phone] = (phoneCounts[phone] || 0) + 1;
+    });
+  });
+  const mostTrustedPhone = Object.entries(phoneCounts).reduce((prev, curr) => {
+    return prev[1] > curr[1] ? prev : curr;
+  }, [null, 0])[0];
+  return mostTrustedPhone;
+}
+
+function findLeastTrustedPhoneBrand(developers) {
+  const phoneCounts = {};
+  developers.forEach((dev) => {
+    dev.phones.forEach((phone) => {
+      phoneCounts[phone] = (phoneCounts[phone] || 0) + 1;
+    });
+  });
+  const leastTrustedPhone = Object.entries(phoneCounts).reduce((prev, curr) => {
+    return prev[1] < curr[1] ? prev : curr;
+  }, [null, Infinity])[0]; // Set initial count to Infinity
+  return leastTrustedPhone;
+}
+
+function countPeopleWithoutPhone(developers) {
+  // Return the number of developers who don't have any phones
+  return developers.filter((dev) => dev.phones.length === 0).length;
+}
+
+function countPeopleWithoutLaptop(developers) {
+  // Return the number of developers who don't have any laptops
+  return developers.filter((dev) => dev.laptops.length === 0).length;
+}
+
+function countPeopleWithoutSetup(developers) {
+  // Return the number of developers who don't have any computer setups
+  return developers.filter((dev) => dev.computerSetups.length === 0).length;
+}
+
+function findDeveloperWithMostGadgets(developers) {
+  const totalGadgets = developers.map((dev) => {
+    let gadgetCount = dev.laptops.length + dev.phones.length;
+    dev.computerSetups.forEach((setup) => {
+      gadgetCount +=
+        setup.monitors + setup.keyboards + setup.mice + setup.speakers;
+    });
+    return { name: dev.name, gadgets: gadgetCount };
+  });
+  const mostGadgets = totalGadgets.reduce((prev, curr) => (curr.gadgets > prev.gadgets ? curr : prev));
+  return mostGadgets;
+}
+
+function findDeveloperWithMostPhones(developers) {
+  const mostPhones = developers.reduce((prev, curr) => (curr.phones.length > prev.phones.length ? curr : prev));
+  return mostPhones;
+}
+
+function findDeveloperWithMostSetups(developers) {
+  const mostSetups = developers.reduce((prev, curr) => (curr.computerSetups.length > prev.computerSetups.length ? curr : prev));
+  return mostSetups;
+}
+
+function findDeveloperWithMostMonitors(developers) {
+  let totalMonitors = 0;
+  let mostMonitorsDev = null;
+  developers.forEach((dev) => {
+    dev.computerSetups.forEach((setup) => {
+      totalMonitors += setup.monitors;
+    });
+    if (totalMonitors > (mostMonitorsDev?.totalMonitors || 0)) {
+      mostMonitorsDev = { name: dev.name, totalMonitors };
+    }
+    totalMonitors = 0; // Reset for next developer
+  });
+  return mostMonitorsDev;
+}
+
 
