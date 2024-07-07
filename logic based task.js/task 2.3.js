@@ -131,123 +131,88 @@ const developers = [
     }
   ]
   
-  let array =["Vee","katlego","Gift","Thokozile"];
-  console.log("names of the developers:", array);
+//array with names of the developers
+const developerNames = developers.map((dev) => dev.name);
+console.log(developerNames);
+
+//number of phones
+const totalPhones = developers.reduce((acc, dev) => acc + dev.phones.length, 0);
+console.log(totalPhones);
+
+// 3. Incomplete computer setups
+const incompleteSetups = developers.reduce((acc, dev) => {
+    return acc + dev.computerSetups.filter(
+      (setup) =>
+        setup.monitors === 0 ||
+        setup.keyboards === 0 ||
+        setup.mice === 0 ||
+        setup.speakers === 0
+    ).length;
+  }, 0);
+  console.log(incompleteSetups);
+
+  // 4. Most trusted phone brand
+const phoneCounts = {};
+developers.forEach((dev) => {
+  dev.phones.forEach((phone) => {
+    phoneCounts[phone] = (phoneCounts[phone] || 0) + 1;
+  });
+});
+const mostTrustedPhone = Object.entries(phoneCounts).reduce((prev, curr) => {
+  return prev[1] > curr[1] ? prev : curr;
+}, [null, 0])[0];
+console.log(mostTrustedPhone); 
+
+// 5. Least trusted phone brand (assuming any phone with a count > 0 is trusted)
+const leastTrustedPhone = Object.entries(phoneCounts).reduce((prev, curr) => {
+    return prev[1] < curr[1] ? prev : curr;
+  }, [null, Infinity])[0]; // Set initial count to Infinity
+  console.log(leastTrustedPhone);
+
+  // 6. People without a phone
+const noPhones = developers.filter((dev) => dev.phones.length === 0).length;
+console.log(noPhones);
+
+// 7. People without a laptop
+const noLaptops = developers.filter((dev) => dev.laptops.length === 0).length;
+console.log(noLaptops);
+
+// 8. People without a computer setup
+const noComputerSetup = developers.filter((dev) => dev.computerSetups.length === 0).length;
+console.log(noComputerSetup);
+
+// 9. Developer with the most gadgets
+const totalGadgets = developers.map((dev) => {
+    let gadgetCount = dev.laptops.length + dev.phones.length;
+    dev.computerSetups.forEach((setup) => {
+      gadgetCount +=
+        setup.monitors + setup.keyboards + setup.mice + setup.speakers;
+    });
+    return { name: dev.name, gadgets: gadgetCount };
+  });
   
-  
-  let Phones=0; //* used to keep track of the phone count
-  for (let x=0; x < Phones.length; x++){ // initializes the counter to start at 0;
-    totalphones += phonesArray[x]; // adds the current element to the phones variable
+  const mostGadgets = totalGadgets.reduce((prev, curr) => (curr.gadgets > prev.gadgets ? curr : prev));
+  console.log(mostGadgets);
+
+  // 10. Developer with the most phones
+const mostPhones = developers.reduce((prev, curr) => (curr.phones.length > prev.phones.length ? curr : prev));
+console.log(mostPhones);
+
+// 11. Developer with the most computer setups
+const mostSetups = developers.reduce((prev, curr) => (curr.computerSetups.length > prev.computerSetups.length ? curr : prev));
+console.log(mostSetups);
+
+// 12. Developer with the most monitors (combined)
+let totalMonitors = 0;
+let mostMonitorsDev = null;
+developers.forEach((dev) => {
+  dev.computerSetups.forEach((setup) => {
+    totalMonitors += setup.monitors;
+  });
+  if (totalMonitors > (mostMonitorsDev?.totalMonitors || 0)) {
+    mostMonitorsDev = { name: dev.name, totalMonitors };
   }
-  console.log("total phones:", Phones);
-  
-  
-  //*this is the people with no computer setup 
-  let incompleteSetups= 0;
-  for (let x= 0; x< developers.length; x++) {
-    let developer = developers[x];
-    if (developer.computerSetups && Array.isArray(developer.computerSetups)) {
-      for (let x = 0; x < developer.computerSetups.length; x++) {
-        let setup = developer.computerSetups[j];
-        if (setup.monitors === 0 || setup.keyboards === 0 || setup.mice === 0 || setup.speakers === 0) {
-          incompleteSetups++;
-        }
-      }
-    }
-  }
-  console.log("incomplete setups:", incompleteSetups);
-  
-  //* trusted phone brand
-  let trustedphonebrand="";
-  let maxcount=0; //*helps keep track of the calculations  of the trusted phone 
-     
-  for(let  brand in trustedphonebrand){
-  if (trustedphonebrand[brand]> maxcount) {
-  
-  maxcount=trustedphonebrand[brand];
-  trustedphonebrand=brand;
-  }
-  }
-  
-  console.log("most trusted phone brand:", trustedphonebrand);
-  
-  
-  //*least trusted phone 
-  let leasttrustedphonebrand=0;
-  let count=0;
-  
-  for(let brand in leasttrustedphonebrand){
-    if (leasttrustedphonebrand[brand]<count){
-      count=leasttrustedphonebrand[brand];
-      leasttrustedphonebrand=brand;
-  
-    }//* checks the brand parameter since we want to find out which brand is least trusted.
-  }
-  console.log("least trusted brand:", leasttrustedphonebrand);
-  
-  //* which developers have no phones
-  let nophones= 0;
-  for(let x=0; x<developers.length; x++){
-    if (developers[x].phones.length ===0){
-      nophones++;
-    
-    }
-  }
-  
-  console.log("people without phones:",nophones);
-  
-  //* developers with no laptop
-  
-  let nolaptop = 0;
-  for (let x=0; x<developers.length; x++){ 
-    if (developers[x].laptops.length === 0){
-      nolaptop++;
-    }
-  }
-  
-  console.log("people without laptops:", nolaptop);
-  
-  //* developer with most phones
-  let Mostphones=0;
-  let  devwithmostPhones="";
-  
-  for (let x=0; x<developers.length; x++){
-    if (devwithmostPhones[Phones] < Mostphones ){
-      Mostphones=devwithmostPhones[Phones];
-      Mostphones=Phones;
-    }
-  }
-  
-  console.log ("developer with most phones:", devwithmostPhones.name);
-  console.log ("computer setups they have: " ,devwithmostPhones.phones);
-  
-  
-  //* developer with most computer setups
-  let mostcomputerSetups= 0;
-  let devwithmostcomputersetups=null;
-  
-  for (let x=0; x<developers.length; x++){
-    if (devwithmostcomputersetups[mostcomputerSetups]< mostcomputerSetups){
-  
-    mostcomputerSetups=devwithmostcomputersetups[computerSetups];
-    mostcomputerSetups= computerSetups;
-    }
-  }
-  
-  console.log ("developer with most computer setups:", devwithmostcomputersetups.name);
-  console.log ("computer setups they have: " ,devwithmostcomputersetups. computerSetups);
-  
-  //*developer with most monitors
-  let mostmonitors = 0;
-  let devwithmostmonitors=null;
-  
-  for(let x=0; x<developers.length; x++){
-    if(devwithmostmonitors[mostmonitors]< mostmonitors){
-      mostmonitors=devwithmostmonitors[monitors];
-      mostmonitors=monitors;
-    }
-  }
-  console.log("developer with most monitor:", devwithmostmonitors.name);
-  console.log ("monitorcount:",devwithmostmonitors.mostmonitors);
-  
-  
+  totalMonitors = 0; // start from 0 for the next developer
+});
+console.log(mostMonitorsDev);
+
