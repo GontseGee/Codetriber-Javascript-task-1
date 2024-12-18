@@ -53,7 +53,7 @@ for (let x=0; x< array.length; x++){
 
  console.log("divisible by 2:", divisibleby2);
 
-
+//* divisible by 3
  let divisibleby3= [];
 for (let x=0; x< array.length; x++){ 
  if (array[x]%3 === 0){
@@ -63,7 +63,7 @@ for (let x=0; x< array.length; x++){
 
  console.log("divisible by 3:", divisibleby3);
 
-
+//neither divisible by 2 nor 3
  let neitherdivisibleBY2Nor3 = [];
  for (let x=0; x<array.length; x++){
     if (array[x]% 2 !==0 && array[x]%3 !== 0){
@@ -72,7 +72,7 @@ for (let x=0; x< array.length; x++){
  }
 console.log("neither divisible by 2 nor 3:", neitherdivisibleBY2Nor3);
 
-
+//number of elements 
 let numberOfElement = array.length;
 console.log("number of Elements:", numberOfElement);
 
@@ -146,7 +146,7 @@ for (let z = 0; z < names.length; z++){
 
     salutation  +=".";
 
-    console.log(salutation);
+    console.log("Greeting:",salutation);
 
 
     let newArray=[];
@@ -157,3 +157,5 @@ for (let z = 0; z < names.length; z++){
         }
     }
     console.log('newArray:',newArray);
+
+    
